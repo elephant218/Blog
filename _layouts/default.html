@@ -1,6 +1,82 @@
 <!DOCTYPE html>
 <html>
   {% include head.html %}
+  <body {% if page.toc==true %}class="has-toc"{% endif %}>
+    {% include nav.html %}
+
+    {% if page.toc==true %}
+      <aside class="toc" id="toc-sidebar">
+        <h3>📚 目录</h3>
+        {% include toc.html html=content %}
+      </aside>
+    {% endif %}
+
+    <div id="main" role="main" class="wrapper-content">
+      <div class="container">
+        {{ content }}
+      </div>
+    </div>
+
+    {% include analytics.html %}
+
+    {% if page.toc==true %}
+    <script>
+      document.getElementById("main").classList.add("withtoc");
+      
+      // 添加布局切换功能
+      document.addEventListener('DOMContentLoaded', function() {
+        const toggleButton = document.getElementById('layoutToggle');
+        const body = document.body;
+        const wrapperSidebar = document.querySelector('.wrapper-sidebar');
+        
+        if (!wrapperSidebar) return;
+        
+        // 检查本地存储的用户偏好
+        const savedLayout = localStorage.getItem('sidebarLayout');
+        if (savedLayout === 'top-layout') {
+          body.classList.add('top-layout');
+          body.classList.remove('default-layout');
+          toggleButton.querySelector('.layout-icon').textContent = '⬇️';
+        } else {
+          body.classList.add('default-layout');
+          body.classList.remove('top-layout');
+          toggleButton.querySelector('.layout-icon').textContent = '⬆️';
+        }
+        
+        // 切换布局
+        toggleButton.addEventListener('click', function() {
+          if (body.classList.contains('default-layout')) {
+            // 切换到介绍页在顶部的布局
+            body.classList.remove('default-layout');
+            body.classList.add('top-layout');
+            localStorage.setItem('sidebarLayout', 'top-layout');
+            toggleButton.querySelector('.layout-icon').textContent = '⬇️';
+          } else {
+            // 切换回默认布局
+            body.classList.remove('top-layout');
+            body.classList.add('default-layout');
+            localStorage.setItem('sidebarLayout', 'default-layout');
+            toggleButton.querySelector('.layout-icon').textContent = '⬆️';
+          }
+        });
+      });
+    </script>
+    {% endif %}
+  </body>
+
+  <div class="wrapper-footer-mobile">
+    <footer class="footer">
+      {% include footer.html %}
+    </footer>
+  </div>
+</html>
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+  {% include head.html %}
   <body>
     {% include nav.html %}
 
@@ -31,4 +107,4 @@
     </footer>
 
 
-</html>
+</html> -->
