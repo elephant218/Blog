@@ -808,6 +808,137 @@ pre {
 pre {
     position: relative;
 }
+
+
+/* 布局切换按钮 */
+.layout-toggle-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.layout-toggle {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.layout-toggle:hover {
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* 顶部布局样式 */
+body.top-layout .wrapper-sidebar {
+  position: static;
+  width: 100%;
+  padding: 0;
+}
+
+body.top-layout .sidebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+body.top-layout .site-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+body.top-layout .site-avatar {
+  margin-bottom: 0;
+}
+
+body.top-layout .site-name {
+  margin-bottom: 0;
+  font-size: 1.5rem;
+}
+
+body.top-layout .site-description {
+  display: none;
+}
+
+body.top-layout .navlist {
+  margin-top: 0;
+}
+
+body.top-layout .navlist nav {
+  display: flex;
+  gap: 2rem;
+}
+
+body.top-layout .wrapper-content {
+  margin-left: 0;
+  padding-top: 2rem;
+}
+
+body.top-layout .wrapper-footer-desktop {
+  display: none;
+}
+
+/* 侧边栏布局样式（默认） */
+body.sidebar-layout .wrapper-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 300px;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-right: 1px solid #eaeaea;
+}
+
+body.sidebar-layout .wrapper-content {
+  margin-left: 300px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .layout-toggle-container {
+    top: 10px;
+    right: 10px;
+  }
+  
+  .layout-toggle span {
+    display: none;
+  }
+  
+  /* 移动端强制使用顶部布局 */
+  body.sidebar-layout .wrapper-sidebar {
+    position: static;
+    width: 100%;
+    padding: 1rem;
+  }
+  
+  body.sidebar-layout .wrapper-content {
+    margin-left: 0;
+  }
+  
+  body.sidebar-layout .sidebar {
+    text-align: center;
+  }
+  
+  body.sidebar-layout .navlist nav {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
 // ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
 @import "highlights";
