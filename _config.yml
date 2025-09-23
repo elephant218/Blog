@@ -64,9 +64,10 @@ disqus: # fromendworld
 # Gitalk
 gitalk:
   clientID: Ov23liYwbdcEe5VjPniq
-  clientSecret: c691f02ee53c5309d0f6d5899d91722b5e04f63f
-  repo: elephant218/Blog
+  clientSecret: 
+  repo: Blog
   owner: elephant218
+  admin: ["elephant218"]
 
 # Enter your Google Analytics web tracking code (e.g. UA-2110908-2) to activate tracking
 #google_analytics: 
