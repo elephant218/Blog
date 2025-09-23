@@ -30,37 +30,6 @@
     })(document);
   </script>  
 
-  <script>
-  // 简单的布局切换功能
-  document.addEventListener('DOMContentLoaded', function() {
-    const toggleBtn = document.getElementById('layoutToggle');
-    const body = document.body;
-    
-    if (!toggleBtn) return;
-    
-    // 检查保存的布局偏好
-    if (localStorage.getItem('layoutMode') === 'top') {
-      body.classList.add('top-layout');
-      toggleBtn.textContent = '📋 切换回侧边栏';
-    }
-    
-    // 点击切换布局
-    toggleBtn.addEventListener('click', function() {
-      if (body.classList.contains('top-layout')) {
-        // 切换回侧边栏布局
-        body.classList.remove('top-layout');
-        localStorage.setItem('layoutMode', 'sidebar');
-        toggleBtn.textContent = '📱 切换到顶部布局';
-      } else {
-        // 切换到顶部布局
-        body.classList.add('top-layout');
-        localStorage.setItem('layoutMode', 'top');
-        toggleBtn.textContent = '📋 切换回侧边栏';
-      }
-    });
-  });
-  </script>
-
   <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
 
 </head>
