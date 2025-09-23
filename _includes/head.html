@@ -1,3 +1,43 @@
+<!-- 布局切换按钮和样式 -->
+{% if page.toc == true %}
+<button id="layoutToggle" class="layout-toggle" title="切换介绍页布局">
+  <span class="layout-icon">⬆️</span>
+</button>
+
+<style>
+/* 布局切换按钮 */
+.layout-toggle {
+  position: fixed;
+  top: 20px;
+  left: 320px; /* 在左侧介绍页右侧 */
+  z-index: 1001;
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+
+.layout-toggle:hover {
+  background: #f8f9fa;
+  transform: scale(1.1);
+  border-color: #007cba;
+}
+
+/* 检测到目录时显示按钮 */
+body.has-toc .layout-toggle {
+  display: flex;
+}
+</style>
+{% endif %}
+
 <head>
   <title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.name }} – {{ site.description }}</title>
 
