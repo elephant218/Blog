@@ -732,6 +732,8 @@ footer {
     }
   }
 }
+
+
 /* 代码块样式优化 - 添加在文件末尾 */
 .highlight {
   pre {
@@ -770,6 +772,22 @@ pre {
     border-radius: 3px;
   }
 }
+
+/* === 修复空格高亮问题 - 添加在文件末尾 === */
+.highlight .w, .highlight .err, .highlight .whitespace {
+    background: transparent !important;
+    color: transparent !important;
+    opacity: 1 !important;
+}
+
+.highlight {
+    color: #24292e;
+}
+
+.highlight pre {
+    color: #24292e;
+}
+
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
 // ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
 @import "highlights";
