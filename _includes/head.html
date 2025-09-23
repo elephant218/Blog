@@ -35,31 +35,29 @@
 </head>
 
 <script>
-// 复制按钮功能
 document.addEventListener('DOMContentLoaded', function() {
-    // 为每个代码块添加复制按钮
     document.querySelectorAll('pre').forEach(function(preBlock) {
-        // 创建复制按钮
         const copyButton = document.createElement('button');
         copyButton.className = 'copy-code-btn';
-        copyButton.textContent = '复制';
+        copyButton.textContent = 'Copy';  // 改为英文
         copyButton.style.cssText = `
             position: absolute;
             top: 10px;
             right: 10px;
-            background: #4CAF50;
+            background: #4da6ff;
             color: white;
             border: none;
-            padding: 5px 10px;
-            border-radius: 3px;
+            padding: 5px 12px;
+            border-radius: 4px;
             font-size: 12px;
             cursor: pointer;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.3s, background 0.3s;
+            font-family: inherit;
         `;
         
-        // 添加鼠标悬停显示效果
         preBlock.style.position = 'relative';
+        
         preBlock.addEventListener('mouseenter', function() {
             copyButton.style.opacity = '1';
         });
@@ -67,13 +65,31 @@ document.addEventListener('DOMContentLoaded', function() {
             copyButton.style.opacity = '0';
         });
         
+        copyButton.addEventListener('mouseenter', function() {
+            copyButton.style.background = '#3399ff';
+        });
+        copyButton.addEventListener('mouseleave', function() {
+            copyButton.style.background = '#4da6ff';
+        });
+        
         // 复制功能
         copyButton.addEventListener('click', function() {
             const code = preBlock.querySelector('code')?.innerText || preBlock.innerText;
             navigator.clipboard.writeText(code).then(function() {
-                copyButton.textContent = '已复制!';
+                copyButton.textContent = 'Copied!';  // 成功提示
+                copyButton.style.background = '#28a745';
+                
                 setTimeout(function() {
-                    copyButton.textContent = '复制';
+                    copyButton.textContent = 'Copy';
+                    copyButton.style.background = '#4da6ff';
+                }, 2000);
+            }).catch(function() {
+                copyButton.textContent = 'Failed';  // 失败提示
+                copyButton.style.background = '#dc3545';
+                
+                setTimeout(function() {
+                    copyButton.textContent = 'Copy';
+                    copyButton.style.background = '#4da6ff';
                 }, 2000);
             });
         });
