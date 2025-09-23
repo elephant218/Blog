@@ -6,41 +6,6 @@
       {% endif %} 
       <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
       <p class="site-description">{{ site.description }}</p>
-      
-      <!-- 布局切换按钮 -->
-      <button id="layoutToggle" class="layout-toggle-btn">
-        📱 切换到顶部布局
-      </button>
-    </div>
-  </header>
-
-  <div class="navlist">
-    <nav>
-      {% for nav in site.navigation %}
-      {% if nav.url contains 'http://' or nav.url contains 'https://' %}
-      <a href="{{ nav.url }}">{{ nav.name }}</a>
-      {% else %}
-      <a href="{{ site.baseurl }}{{ nav.url }}">{{ nav.name }}</a>
-      {% endif %}
-      {% endfor %}
-    </nav>
-  </div>
-
-  <div class="wrapper-footer-desktop">
-    <footer class="footer">
-      {% include footer.html %}
-    </footer>
-  </div>
-</div>
-
-<!-- <div class="wrapper-sidebar">
-  <header class="sidebar clearfix">
-    <div class="site-info">
-      {% if site.avatar %}
-        <a href="{{ site.baseurl }}/" class="site-avatar"><img src="{{ site.avatar }}" /></a>
-      {% endif %} 
-      <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
-      <p class="site-description">{{ site.description }}</p>
     </div>
   </header>
 
@@ -61,4 +26,4 @@
       {% include footer.html %}
     </footer>
   </div> 
-</div> -->
+</div>
