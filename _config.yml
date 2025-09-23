@@ -43,7 +43,7 @@ footer-links:
   email: 15802111072@163.com
   facebook:
   flickr:
-  github: elephant218 
+  github: https://github.com/elephant218 
   googleplus: # anything in your profile username that comes after plus.google.com/
   instagram:
   linkedin:
@@ -55,7 +55,7 @@ footer-links:
   youtube:
 
 # Text under the icons in footer
-footer-text: Copyright (c) 2019 lemon
+footer-text: Copyright (c) 2025 elephant
 
 # Enter your Disqus shortname (not your username) to enable commenting on posts
 # You can find your shortname on the Settings page of your Disqus account
