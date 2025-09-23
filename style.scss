@@ -8,7 +8,7 @@
 @import "reset";
 @import "open-color";
 @import "variables";
-@import "custom";
+// @import "custom";
 
 // Syntax highlighting @import is at the bottom of this file
 
@@ -809,6 +809,44 @@ pre {
 pre {
     position: relative;
 }
+
+
+<script>
+// 布局切换功能
+document.addEventListener('DOMContentLoaded', function() {
+  const layoutToggle = document.getElementById('layoutToggle');
+  const body = document.body;
+  
+  // 检查本地存储的布局偏好
+  const savedLayout = localStorage.getItem('preferredLayout');
+  if (savedLayout === 'top-layout') {
+    body.classList.remove('sidebar-layout');
+    body.classList.add('top-layout');
+    updateToggleText('侧边栏布局');
+  }
+  
+  layoutToggle.addEventListener('click', function() {
+    if (body.classList.contains('sidebar-layout')) {
+      // 切换到顶部布局
+      body.classList.remove('sidebar-layout');
+      body.classList.add('top-layout');
+      localStorage.setItem('preferredLayout', 'top-layout');
+      updateToggleText('侧边栏布局');
+    } else {
+      // 切换回侧边栏布局
+      body.classList.remove('top-layout');
+      body.classList.add('sidebar-layout');
+      localStorage.setItem('preferredLayout', 'sidebar-layout');
+      updateToggleText('顶部布局');
+    }
+  });
+  
+  function updateToggleText(text) {
+    const span = layoutToggle.querySelector('span');
+    span.textContent = text;
+  }
+});
+</script>
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
 // ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
