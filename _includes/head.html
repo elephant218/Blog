@@ -105,43 +105,80 @@ document.addEventListener('DOMContentLoaded', function() {
     const toggleBtn = document.createElement('button');
     toggleBtn.id = 'layout-toggle';
     toggleBtn.innerHTML = '⇄';
-    toggleBtn.title = '切换布局（桌面/移动）';
+    toggleBtn.title = '切换布局';
     
     document.body.appendChild(toggleBtn);
+
+    // 获取实际宽度
+    function getSidebarWidth() {
+        const sidebar = document.querySelector('.wrapper-sidebar');
+        return sidebar ? sidebar.offsetWidth : 300;
+    }
+
+    // 设置正确宽度（不干扰目录栏）
+    function setCorrectWidth() {
+        const sidebarWidth = getSidebarWidth();
+        const style = document.getElementById('layout-styles');
+        if (style) style.remove();
+        
+        const newStyle = document.createElement('style');
+        newStyle.id = 'layout-styles';
+        newStyle.textContent = `
+            .wrapper-sidebar { 
+                width: ${sidebarWidth}px !important; 
+                position: fixed !important;
+                left: 0 !important;
+                top: 0 !important;
+                height: 100vh !important;
+                overflow-y: auto !important;
+                z-index: 100 !important;
+            }
+            .wrapper-content.withtoc { 
+                margin-left: ${sidebarWidth}px !important; 
+                width: calc(100% - ${sidebarWidth}px) !important;
+                position: relative !important;
+            }
+        `;
+        document.head.appendChild(newStyle);
+    }
 
     // 切换布局功能
     function toggleLayout() {
         document.body.classList.toggle('mobile-layout');
         const isMobile = document.body.classList.contains('mobile-layout');
         localStorage.setItem('mobileLayout', isMobile);
-        toggleBtn.innerHTML = isMobile ? '⬆️' : '⬅️'; // 不同状态显示不同图标
-        toggleBtn.title = isMobile ? '切换到桌面布局' : '切换到移动布局';
+        
+        if (isMobile) {
+            toggleBtn.innerHTML = '⬅️';
+            toggleBtn.title = '切换到桌面布局';
+        } else {
+            toggleBtn.innerHTML = '⬆️';
+            toggleBtn.title = '切换到移动布局';
+            setTimeout(setCorrectWidth, 100);
+        }
     }
 
     toggleBtn.addEventListener('click', toggleLayout);
 
-    // 根据屏幕大小自动切换
-    function checkScreenSize() {
-        if (window.innerWidth <= 768) {
+    // 初始化
+    setTimeout(function() {
+        setCorrectWidth();
+        
+        // 恢复用户偏好
+        if (localStorage.getItem('mobileLayout') === 'true') {
             document.body.classList.add('mobile-layout');
-            toggleBtn.innerHTML = '⬆️';
-            toggleBtn.title = '切换到桌面布局';
-        } else {
-            document.body.classList.remove('mobile-layout');
             toggleBtn.innerHTML = '⬅️';
-            toggleBtn.title = '切换到移动布局';
+        } else {
+            toggleBtn.innerHTML = '⬆️';
         }
-    }
+    }, 500);
 
-    // 恢复用户偏好
-    if (localStorage.getItem('mobileLayout') === 'true') {
-        document.body.classList.add('mobile-layout');
-        toggleBtn.innerHTML = '⬆️';
-        toggleBtn.title = '切换到桌面布局';
-    }
-
-    window.addEventListener('resize', checkScreenSize);
-    checkScreenSize();
+    // 窗口调整时重新计算
+    window.addEventListener('resize', function() {
+        if (!document.body.classList.contains('mobile-layout')) {
+            setTimeout(setCorrectWidth, 100);
+        }
+    });
 });
 </script>
 
@@ -172,25 +209,17 @@ document.addEventListener('DOMContentLoaded', function() {
     transform: scale(1.1);
 }
 
-/* 默认桌面端布局 */
+/* 桌面布局 - 让目录栏自然跟随内容 */
 .wrapper-sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 300px; /* 侧边栏宽度 */
-    height: 100vh;
-    overflow-y: auto;
     transition: all 0.3s ease;
-    z-index: 100;
 }
 
 .wrapper-content.withtoc {
-    margin-left: 300px; /* 与侧边栏宽度一致 */
     transition: all 0.3s ease;
-    width: calc(100% - 300px);
+    min-height: 100vh;
 }
 
-/* 移动端布局 */
+/* 移动布局 - 侧边栏到顶部，目录栏自然跟随 */
 body.mobile-layout .wrapper-sidebar {
     position: relative !important;
     width: 100% !important;
@@ -203,13 +232,20 @@ body.mobile-layout .wrapper-content.withtoc {
     width: 100% !important;
 }
 
-/* 响应式：小屏幕自动切换为移动布局 */
+/* 确保目录栏正常显示，不额外定位 */
+.toc, [class*="toc"], #toc {
+    position: relative !important; /* 让目录栏自然流动 */
+    right: auto !important;
+    top: auto !important;
+    width: auto !important;
+}
+
+/* 响应式处理 */
 @media (max-width: 768px) {
     .wrapper-sidebar {
         position: relative !important;
         width: 100% !important;
         height: auto !important;
-        margin-left: 0 !important;
     }
     
     .wrapper-content.withtoc {
@@ -218,17 +254,13 @@ body.mobile-layout .wrapper-content.withtoc {
     }
     
     #layout-toggle {
-        display: none; /* 小屏幕隐藏手动按钮 */
-    }
-    
-    /* 如果用户手动切换了布局，在小屏幕也显示按钮 */
-    body.mobile-layout #layout-toggle {
-        display: flex !important;
+        display: none;
     }
 }
 
-/* 确保body有相对定位 */
+/* 确保body正常 */
 body {
     position: relative;
+    overflow-x: hidden;
 }
 </style>
