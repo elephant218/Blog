@@ -98,3 +98,122 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 创建切换按钮
+    const toggleBtn = document.createElement('button');
+    toggleBtn.id = 'layout-toggle';
+    toggleBtn.innerHTML = '⇄';
+    toggleBtn.title = '切换布局（桌面/移动）';
+    
+    document.body.appendChild(toggleBtn);
+
+    // 切换布局功能
+    function toggleLayout() {
+        document.body.classList.toggle('mobile-layout');
+        const isMobile = document.body.classList.contains('mobile-layout');
+        localStorage.setItem('mobileLayout', isMobile);
+        toggleBtn.innerHTML = isMobile ? '⇄' : '⇄'; // 可以换不同的图标
+    }
+
+    toggleBtn.addEventListener('click', toggleLayout);
+
+    // 根据屏幕大小自动切换
+    function checkScreenSize() {
+        if (window.innerWidth <= 768) {
+            document.body.classList.add('mobile-layout');
+        } else {
+            document.body.classList.remove('mobile-layout');
+        }
+    }
+
+    // 恢复用户偏好
+    if (localStorage.getItem('mobileLayout') === 'true') {
+        document.body.classList.add('mobile-layout');
+    }
+
+    window.addEventListener('resize', checkScreenSize);
+    checkScreenSize();
+});
+</script>
+
+<style>
+/* 切换按钮样式 */
+#layout-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+    background: #4da6ff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+#layout-toggle:hover {
+    background: #3399ff;
+    transform: scale(1.1);
+}
+
+/* 默认桌面端布局 */
+.wrapper-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 300px; /* 根据实际宽度调整 */
+    height: 100vh;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+}
+
+/* 主要内容区域 - 需要根据实际class调整 */
+.main-content, .post-content, article, [class*="content"] {
+    margin-left: 300px; /* 与侧边栏宽度一致 */
+    transition: all 0.3s ease;
+}
+
+/* 移动端布局 */
+body.mobile-layout .wrapper-sidebar {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    margin-left: 0 !important;
+}
+
+body.mobile-layout .main-content,
+body.mobile-layout .post-content, 
+body.mobile-layout article {
+    margin-left: 0 !important;
+    width: 100% !important;
+}
+
+/* 响应式：小屏幕自动切换 */
+@media (max-width: 768px) {
+    .wrapper-sidebar {
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+    
+    .main-content, .post-content, article {
+        margin-left: 0 !important;
+    }
+    
+    #layout-toggle {
+        display: none; /* 小屏幕隐藏手动按钮 */
+    }
+    
+    body.mobile-layout #layout-toggle {
+        display: flex; /* 如果用户手动切换，在小屏幕也显示 */
+    }
+}
+</style>
